@@ -1,0 +1,37 @@
+name: PR Codecov
+
+on:
+  pull_request:
+    branches:
+      - main # PR 대상 브랜치를 지정
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Repository 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Node.js 설정
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "16"
+
+      # 의존성 설치
+      - name: Install dependencies
+        run: npm ci
+
+      # Jest로 테스트 실행 및 커버리지 리포트 생성
+      - name: Run tests with coverage
+        run: npm run test -- --coverage
+
+      # Codecov 업로드
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # Codecov Token
+          files: ./coverage/lcov-report/index.html # 커버리지 리포트 파일 경로
+          flags: unittests
+          fail_ci_if_error: true
