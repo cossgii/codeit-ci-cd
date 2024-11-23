@@ -6,8 +6,8 @@ describe("template spec", () => {
     cy.contains("Get started by editing");
   });
   it('should contain "Docs" heading anchor with correct href prop', () => {
-    cy.contains("Docs")
+    cy.contains("Learn")
       .should("have.attr", "href")
-      .and("include", "https://nextjs.org/docs");
+      .and("include", "https://nextjs.org/learn");
   });
 });
